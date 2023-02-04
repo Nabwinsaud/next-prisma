@@ -19,4 +19,14 @@ export default async function getTodos(
       res.status(500).json({ message: error });
     }
   }
+  if (req.method === "POST") {
+    try {
+      const { title, description } = req.body;
+      // no validation because we are checking validation in frontend
+      await prisma.todo.create({ data: { title, description } });
+      return res.status(200).json({ message: "Todo created successfully" });
+    } catch (error) {
+      return res.status(500).json({ message: error });
+    }
+  }
 }

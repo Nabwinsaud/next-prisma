@@ -13,7 +13,7 @@ async function getData(): Promise<IData[]> {
 export default async function TodoList() {
   const data = await getData();
   return (
-    <div className="w-full h-screen max-w-4xl mx-auto">
+    <div className="w-full h-screen px-6 md:px-2 max-w-4xl  mx-auto">
       <div className="my-6">
         <div className="py-4">
           <Link className="bg-white text-black rounded-md py-2 px-6" href="/">
