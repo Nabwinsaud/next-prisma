@@ -6,13 +6,16 @@ export interface IData {
   title: string;
   description: string;
 }
+interface ICreate {
+  title: string;
+  description: string;
+}
 export default async function getTodos(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   if (req.method === "GET") {
     try {
-      // const data = await
       const data = await prisma.todo.findMany();
       return res.status(200).json(data);
     } catch (error) {
@@ -21,7 +24,7 @@ export default async function getTodos(
   }
   if (req.method === "POST") {
     try {
-      const { title, description } = req.body;
+      const { title, description }: ICreate = JSON.parse(req.body);
       // no validation because we are checking validation in frontend
       await prisma.todo.create({ data: { title, description } });
       return res.status(200).json({ message: "Todo created successfully" });

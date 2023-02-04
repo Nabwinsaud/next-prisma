@@ -16,7 +16,9 @@ interface ITodo {
 export default function AddTodo() {
   const [open, setOpen] = useState<boolean>(false);
   const router = useRouter();
-  const navigate = () => router.push("/todos");
+  const navigate = () => {
+    router.push("/todos");
+  };
   const notify = () => toast.success("Todo added successfully.");
   const errorMessage = () => toast.error("Could not create Todo.");
   const [todo, setTodo] = useState<ITodo>({ title: "", description: "" });
@@ -30,6 +32,8 @@ export default function AddTodo() {
     event.preventDefault();
     setLoading(true);
     try {
+      // of course you can make this api call into baseUrl
+      // make it yourself
       const response = await fetch("http://localhost:3000/api/todo", {
         method: "POST",
         body: JSON.stringify(todo),
@@ -38,12 +42,14 @@ export default function AddTodo() {
       if (response.status === 200) {
         notify();
         navigate();
+        router.refresh(); // its updating the added data to the screen instantly
       }
     } catch (error: any) {
       // errorMessage();
       toast.error("could not create Todo");
     }
   };
+
   return (
     <div className="flex flex-col">
       <Toaster />
